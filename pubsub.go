@@ -124,6 +124,9 @@ func (s *Subscriptions) receive() {
 		for {
 			rep, err := readReply(s.conn)
 			if err != nil {
+				if s.IsClosed() {
+					break
+				}
 				if s.throwError {
 					s.messageChannel <- nil
 					return
